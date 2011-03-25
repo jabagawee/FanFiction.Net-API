@@ -19,11 +19,6 @@ _DATEP_REGEX = r"var\s+datep\s*=\s*'(.+)';"
 _DATEU_REGEX = r"var\s+dateu\s*=\s*'(.+)';"
 _AUTHOR_REGEX = r"var\s+author\s*=\s*'(.+)';"
 
-# Information needed to assemble the correct review URL ("logind" seems to be
-# variable)
-_LOGIND_REGEX = r"var\s+logind\s*=\s*'(.+)';"
-_REVIEW_URL_REGEX = r"var\s+review_url\s*=\s*'(.+)';"
-
 # Used to parse the attributes which aren't directly contained in the
 # JavaScript and hence need to be parsed manually
 _NON_JAVASCRIPT_REGEX = r'Rated:(.+)'
@@ -37,8 +32,6 @@ _GENRES = (
     'Fantasy', 'Spiritual', 'Tragedy', 'Western', 'Crime', 'Family' ,'Hurt',
     'Comfort', 'Friendship'
 )
-
-
 
 
 # Convenience methods
@@ -137,4 +130,3 @@ class Chapter(object):
             # until now; for the lack of a proper chapter title use the story's
             self.title = _unescape_javascript_string(_parse_string(_TITLE_T_REGEX, source))
         self.text = soup.find('div', id='storytext').renderContents().decode('utf-8')
-        self.review_url = urlparse.urljoin(_parse_string(_LOGIND_REGEX, source), _parse_string(_REVIEW_URL_REGEX, source).replace("'+storyid+'", str(self.story_id)).replace("'+chapter+'", str(self.number)))
