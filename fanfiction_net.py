@@ -130,4 +130,9 @@ class Chapter(object):
             # No multiple chapters, one-shot or only a single chapter released
             # until now; for the lack of a proper chapter title use the story's
             self.title = _unescape_javascript_string(_parse_string(_TITLE_T_REGEX, source))
-        self.text = soup.find('div', id='storytext').renderContents().decode('utf-8')
+        soup = soup.find('div', id='storytext')
+        # Normalize HTML tag attributes
+        for hr in soup('hr'):
+            del hr['size']
+            del hr['noshade']
+        self.text = soup.renderContents().decode('utf-8')
