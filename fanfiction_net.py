@@ -1,6 +1,5 @@
 import re
 import urllib2
-import urlparse
 
 import html5lib
 
@@ -34,16 +33,18 @@ _GENRES = (
 )
 
 
-# Convenience methods
 def _parse_string(regex, source):
+    """Returns first group of matched regular expression as string."""
     return re.search(regex, source).group(1).decode('utf-8')
 
 
 def _parse_integer(regex, source):
+    """Returns first group of matched regular expression as integer."""
     return int(re.search(regex, source).group(1))
 
 
 def _unescape_javascript_string(string_):
+    """Removes JavaScript-specific string escaping characters."""
     return string_.replace("\\'", "'").replace('\\"', '"').replace('\\\\', '\\')
 
 
@@ -129,4 +130,9 @@ class Chapter(object):
             # No multiple chapters, one-shot or only a single chapter released
             # until now; for the lack of a proper chapter title use the story's
             self.title = _unescape_javascript_string(_parse_string(_TITLE_T_REGEX, source))
-        self.text = soup.find('div', id='storytext').renderContents().decode('utf-8')
+        soup = soup.find('div', id='storytext')
+        # Normalize HTML found in in story text
+        for hr in soup('hr'):
+            del hr['size']
+            del hr['noshade']
+        self.text = soup.renderContents().decode('utf-8')
