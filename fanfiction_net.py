@@ -37,11 +37,9 @@ def _parse_string(regex, source):
     """Returns first group of matched regular expression as string."""
     return re.search(regex, source).group(1).decode('utf-8')
 
-
 def _parse_integer(regex, source):
     """Returns first group of matched regular expression as integer."""
     return int(re.search(regex, source).group(1))
-
 
 def _unescape_javascript_string(string_):
     """Removes JavaScript-specific string escaping characters."""
@@ -49,7 +47,6 @@ def _unescape_javascript_string(string_):
 
 
 class Story(object):
-
     def __init__(self, source):
         # Easily parsable and directly contained in the JavaScript, lets hope
         # that doesn't change or it turns into something like below
@@ -116,7 +113,6 @@ class Story(object):
 
 
 class Chapter(object):
-
     def __init__(self, source):
         self.story_id = _parse_integer(_STORYID_REGEX, source)
         self.number = _parse_integer(_CHAPTER_REGEX, source)
