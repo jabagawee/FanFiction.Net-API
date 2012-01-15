@@ -1,5 +1,4 @@
 import re
-import urllib2
 
 import html5lib
 
@@ -28,7 +27,7 @@ _HTML_TAG_REGEX = r'<.*?>'
 _GENRES = (
     'General', 'Romance', 'Humor', 'Drama', 'Poetry', 'Adventure', 'Mystery',
     'Horror', 'Parody', 'Angst', 'Supernatural', 'Suspense', 'Sci-Fi',
-    'Fantasy', 'Spiritual', 'Tragedy', 'Western', 'Crime', 'Family' ,'Hurt',
+    'Fantasy', 'Spiritual', 'Tragedy', 'Western', 'Crime', 'Family', 'Hurt',
     'Comfort', 'Friendship'
 )
 
@@ -37,9 +36,11 @@ def _parse_string(regex, source):
     """Returns first group of matched regular expression as string."""
     return re.search(regex, source).group(1).decode('utf-8')
 
+
 def _parse_integer(regex, source):
     """Returns first group of matched regular expression as integer."""
     return int(re.search(regex, source).group(1))
+
 
 def _unescape_javascript_string(string_):
     """Removes JavaScript-specific string escaping characters."""
@@ -127,6 +128,8 @@ class Chapter(object):
             # until now; for the lack of a proper chapter title use the story's
             self.title = _unescape_javascript_string(_parse_string(_TITLE_T_REGEX, source))
         soup = soup.find('div', id='storytext')
+        # Remove AddToAny share buttons
+        soup.find('div', {'class': lambda class_: class_ and 'a2a_kit' in class_}).extract()
         # Normalize HTML tag attributes
         for hr in soup('hr'):
             del hr['size']
