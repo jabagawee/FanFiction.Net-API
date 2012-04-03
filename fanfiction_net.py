@@ -1,4 +1,5 @@
 import re
+import urllib2
 
 import html5lib
 
@@ -48,7 +49,8 @@ def _unescape_javascript_string(string_):
 
 
 class Story(object):
-    def __init__(self, source):
+    def __init__(self, url, opener=urllib2.urlopen):
+        source = opener(url).read()
         # Easily parsable and directly contained in the JavaScript, lets hope
         # that doesn't change or it turns into something like below
         self.id = _parse_integer(_STORYID_REGEX, source)
@@ -114,7 +116,8 @@ class Story(object):
 
 
 class Chapter(object):
-    def __init__(self, source):
+    def __init__(self, url, opener=urllib2.urlopen):
+        source = opener(url).read()
         self.story_id = _parse_integer(_STORYID_REGEX, source)
         self.number = _parse_integer(_CHAPTER_REGEX, source)
 
