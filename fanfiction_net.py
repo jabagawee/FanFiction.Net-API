@@ -24,12 +24,12 @@ _HTML_TAG_REGEX = r'<.*?>'
 
 # Needed to properly decide if a token contains a genre or a character name
 # while manually parsing data that isn't directly contained in the JavaScript
-_GENRES = (
+_GENRES = [
     'General', 'Romance', 'Humor', 'Drama', 'Poetry', 'Adventure', 'Mystery',
     'Horror', 'Parody', 'Angst', 'Supernatural', 'Suspense', 'Sci-Fi',
     'Fantasy', 'Spiritual', 'Tragedy', 'Western', 'Crime', 'Family',
     'Hurt/Comfort', 'Friendship'
-)
+]
 
 
 def _parse_string(regex, source):
@@ -73,7 +73,7 @@ class Story(object):
 
         # After those the remaining tokens are uninteresting and looking for
         # either character or genre tokens is useless
-        token_terminators = ('Reviews: ', 'Updated: ', 'Published: ')
+        token_terminators = ['Reviews: ', 'Updated: ', 'Published: ']
 
         # Check if tokens[2] contains the genre
         if tokens[2] in _GENRES:
