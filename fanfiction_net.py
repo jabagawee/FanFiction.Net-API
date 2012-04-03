@@ -32,6 +32,8 @@ _GENRES = [
     'Hurt/Comfort', 'Friendship'
 ]
 
+CHAPTER_URL_TEMPLATE = 'http://www.fanfiction.net/s/%d/%s'
+
 
 def _parse_string(regex, source):
     """Returns first group of matched regular expression as string."""
@@ -113,6 +115,15 @@ class Story(object):
         else:
             # FanFiction.Net calls it "In-Progress", I'll just go with that
             self.status = 'In-Progress'
+
+    def get_chapters(self, opener=urllib2.urlopen):
+        for number in range(1, self.number_chapters + 1):
+            url = CHAPTER_URL_TEMPLATE % (self.id, number)
+            yield Chapter(url, opener)
+
+    # Method alias which allows the user to treat the get_chapters method like
+    # a normal property if no manual opener is to be specified.
+    chapters = property(get_chapters)
 
 
 class Chapter(object):
