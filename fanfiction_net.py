@@ -34,7 +34,7 @@ _GENRES = [
     'Fantasy', 'Spiritual', 'Tragedy', 'Western', 'Crime', 'Family',
     'Hurt/Comfort', 'Friendship'
 ]
-_CHAPTER_URL_TEMPLATE = 'http://www.fanfiction.net/s/%d/%s'
+_CHAPTER_URL_TEMPLATE = 'http://www.fanfiction.net/s/%d/%d'
 
 
 def _parse_string(regex, source):
