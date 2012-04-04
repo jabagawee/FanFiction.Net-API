@@ -31,8 +31,8 @@ _HTML_TAG_REGEX = r'<.*?>'
 _GENRES = [
     'General', 'Romance', 'Humor', 'Drama', 'Poetry', 'Adventure', 'Mystery',
     'Horror', 'Parody', 'Angst', 'Supernatural', 'Suspense', 'Sci-Fi',
-    'Fantasy', 'Spiritual', 'Tragedy', 'Western', 'Crime', 'Family',
-    'Hurt/Comfort', 'Friendship'
+    'Fantasy', 'Spiritual', 'Tragedy', 'Western', 'Crime', 'Family', 'Hurt',
+    'Comfort', 'Friendship'
 ]
 _CHAPTER_URL_TEMPLATE = 'http://www.fanfiction.net/s/%d/%d'
 
@@ -82,7 +82,7 @@ class Story(object):
         token_terminators = ['Reviews: ', 'Updated: ', 'Published: ']
 
         # Check if tokens[2] contains the genre
-        if tokens[2] in _GENRES:
+        if tokens[2] in _GENRES or '/' in tokens[2] and all(token in _GENRES for token in tokens[2].split('/')):
             self.genre = tokens[2]
             # tokens[2] contained the genre, check if next token contains the
             # characters
