@@ -103,7 +103,7 @@ class Story(object):
 
         for token in tokens:
             if token.startswith('Reviews: '):
-                # Replace comma in case the review count is over 9999
+                # Replace comma in case the review count is greater than 9999
                 self.reviews = int(token.split()[1].replace(',', ''))
                 break
         else:
