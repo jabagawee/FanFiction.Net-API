@@ -1,7 +1,7 @@
 import re
 import urllib2
 
-import html5lib
+import bs4
 
 
 _STORYID_REGEX = r"var\s+storyid\s*=\s*(\d+);"
@@ -37,7 +37,7 @@ CHAPTER_URL_TEMPLATE = 'http://www.fanfiction.net/s/%d/%s'
 
 def _parse_string(regex, source):
     """Returns first group of matched regular expression as string."""
-    return re.search(regex, source).group(1).decode('utf-8')
+    return re.search(regex, source).group(1)
 
 
 def _parse_integer(regex, source):
@@ -132,11 +132,11 @@ class Chapter(object):
         self.story_id = _parse_integer(_STORYID_REGEX, source)
         self.number = _parse_integer(_CHAPTER_REGEX, source)
 
-        soup = html5lib.parse(source, 'beautifulsoup')
+        soup = bs4.BeautifulSoup(source)
         select = soup.find('select', {'name': 'chapter'})
         if select:
             # There are multiple chapters available, use chapter's title
-            self.title = select.find('option', selected=True).renderContents().split(None, 1)[1].decode('utf-8')
+            self.title = select.find('option', selected=True).string.split(None, 1)[1]
         else:
             # No multiple chapters, one-shot or only a single chapter released
             # until now; for the lack of a proper chapter title use the story's
@@ -148,4 +148,4 @@ class Chapter(object):
         for hr in soup('hr'):
             del hr['size']
             del hr['noshade']
-        self.text = soup.renderContents().decode('utf-8')
+        self.text = soup.encode('utf-8')
