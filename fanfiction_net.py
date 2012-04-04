@@ -32,7 +32,7 @@ _GENRES = [
     'Hurt/Comfort', 'Friendship'
 ]
 
-CHAPTER_URL_TEMPLATE = 'http://www.fanfiction.net/s/%d/%s'
+_CHAPTER_URL_TEMPLATE = 'http://www.fanfiction.net/s/%d/%s'
 
 
 def _parse_string(regex, source):
@@ -118,7 +118,7 @@ class Story(object):
 
     def get_chapters(self, opener=urllib2.urlopen):
         for number in range(1, self.number_chapters + 1):
-            url = CHAPTER_URL_TEMPLATE % (self.id, number)
+            url = _CHAPTER_URL_TEMPLATE % (self.id, number)
             yield Chapter(url, opener)
 
     # Method alias which allows the user to treat the get_chapters method like
