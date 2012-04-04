@@ -18,6 +18,9 @@ _DATEP_REGEX = r"var\s+datep\s*=\s*'(.+)';"
 _DATEU_REGEX = r"var\s+dateu\s*=\s*'(.+)';"
 _AUTHOR_REGEX = r"var\s+author\s*=\s*'(.+)';"
 
+# Useful for generating a review URL later on
+_STORYTEXTID_REGEX = r"var\s+review_url\s*=\s*'.*storytextid=(\d+)';"
+
 # Used to parse the attributes which aren't directly contained in the
 # JavaScript and hence need to be parsed manually
 _NON_JAVASCRIPT_REGEX = r'Rated:(.+)'
@@ -31,7 +34,6 @@ _GENRES = [
     'Fantasy', 'Spiritual', 'Tragedy', 'Western', 'Crime', 'Family',
     'Hurt/Comfort', 'Friendship'
 ]
-
 _CHAPTER_URL_TEMPLATE = 'http://www.fanfiction.net/s/%d/%s'
 
 
@@ -131,6 +133,7 @@ class Chapter(object):
         source = opener(url).read()
         self.story_id = _parse_integer(_STORYID_REGEX, source)
         self.number = _parse_integer(_CHAPTER_REGEX, source)
+        self.story_text_id = _parse_integer(_STORYTEXTID_REGEX, source)
 
         soup = bs4.BeautifulSoup(source)
         select = soup.find('select', {'name': 'chapter'})
