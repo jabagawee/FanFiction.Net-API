@@ -4,5 +4,4 @@ An unofficial, passive API to [FanFiction.Net](http://www.fanfiction.net/). The 
 
 Dependencies
 ------------
-* [html5lib](http://code.google.com/p/html5lib/)
-* [BeautifulSoup](http://www.crummy.com/software/BeautifulSoup/)
+* [BeautifulSoup 4](http://www.crummy.com/software/BeautifulSoup/)
