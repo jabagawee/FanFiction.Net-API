@@ -135,7 +135,7 @@ class Chapter(object):
         self.number = _parse_integer(_CHAPTER_REGEX, source)
         self.story_text_id = _parse_integer(_STORYTEXTID_REGEX, source)
 
-        soup = bs4.BeautifulSoup(source)
+        soup = bs4.BeautifulSoup(source, 'lxml')
         select = soup.find('select', {'name': 'chapter'})
         if select:
             # There are multiple chapters available, use chapter's title
